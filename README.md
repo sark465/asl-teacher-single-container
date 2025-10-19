@@ -11,6 +11,7 @@ A full-stack web application for learning American Sign Language (ASL) that runs
 - 🔊 **Text-to-Speech Feedback**: Audio feedback for learning and testing
 - 💾 **Progress Tracking**: Stores test results with unique ASL-prefixed test IDs
 - 👤 **User Management**: Optional user registration and test history
+- 🔒 **Rate Limiting**: API rate limiting to prevent abuse and ensure fair usage
 - 🐳 **Single Container**: All services (React, Node/Express, PostgreSQL, Nginx) in one container
 
 ## Architecture
@@ -170,6 +171,7 @@ docker run -p 8080:80 -e OPENAI_API_KEY=your_key_here asl-teacher
 - **Real-time Hand Tracking**: MediaPipe provides visual feedback with hand landmarks
 - **AI-Powered Recognition**: Uses GPT-4 Vision for accurate ASL sign recognition
 - **Audio Feedback**: Text-to-speech provides auditory learning support
+- **Rate Limiting**: Built-in API rate limiting (100 requests/15 min general, 20 requests/15 min for expensive operations) to prevent abuse
 
 ## Troubleshooting
 

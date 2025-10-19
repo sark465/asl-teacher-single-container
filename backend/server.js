@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const rateLimit = require('express-rate-limit');
 const { v4: uuidv4 } = require('uuid');
 const { pool, initDB } = require('./db');
 const OpenAI = require('openai');
@@ -13,6 +14,26 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+
+// Rate limiting middleware
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many requests from this IP, please try again later.'
+});
+
+const strictLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 20, // Limit expensive operations to 20 per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many requests from this IP, please try again later.'
+});
+
+// Apply general rate limiting to all API routes
+app.use('/api/', apiLimiter);
 
 // Initialize OpenAI
 const openai = new OpenAI({
@@ -123,8 +144,8 @@ app.get('/api/test-results/user/:userId', async (req, res) => {
   }
 });
 
-// ASL Recognition endpoint using OpenAI
-app.post('/api/recognize-sign', async (req, res) => {
+// ASL Recognition endpoint using OpenAI (rate limited)
+app.post('/api/recognize-sign', strictLimiter, async (req, res) => {
   try {
     const { image, expectedLetter } = req.body;
 
@@ -169,8 +190,8 @@ app.post('/api/recognize-sign', async (req, res) => {
   }
 });
 
-// TTS endpoint
-app.post('/api/tts', async (req, res) => {
+// TTS endpoint (rate limited)
+app.post('/api/tts', strictLimiter, async (req, res) => {
   try {
     const { text } = req.body;
 
