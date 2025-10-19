@@ -1,0 +1,38 @@
+{
+  "name": "asl-teacher-frontend",
+  "version": "1.0.0",
+  "description": "ASL Teacher React Frontend",
+  "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "@mediapipe/hands": "^0.4.1646424915",
+    "@mediapipe/camera_utils": "^0.3.1620248357",
+    "@mediapipe/drawing_utils": "^0.3.1620248257",
+    "axios": "^1.6.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
