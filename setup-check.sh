@@ -42,7 +42,13 @@ if [ -f ".env" ]; then
     if grep -q "OPENAI_API_KEY=your_openai_api_key_here" .env; then
         echo "⚠ WARNING: Please update OPENAI_API_KEY in .env file"
     elif grep -q "OPENAI_API_KEY=" .env; then
-        echo "✓ OPENAI_API_KEY is configured"
+        # Extract and validate API key format
+        API_KEY=$(grep "OPENAI_API_KEY=" .env | cut -d '=' -f2)
+        if [[ $API_KEY == sk-* ]]; then
+            echo "✓ OPENAI_API_KEY is configured with valid format"
+        else
+            echo "⚠ WARNING: OPENAI_API_KEY does not appear to be in valid format (should start with 'sk-')"
+        fi
     else
         echo "⚠ WARNING: OPENAI_API_KEY not found in .env file"
     fi
