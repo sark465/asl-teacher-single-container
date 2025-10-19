@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  asl-teacher:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
